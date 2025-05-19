@@ -1,0 +1,2 @@
+- The script flow.sh is the script that allowed us to perform the mapping out with bowtie 2 and samtools, and also to perform the taxonomic classification with kraken2 and the visualization with Krona.
+- The script modified_kronatools.py is the modified script used to removed the unclassified reads from the krona visualization.
