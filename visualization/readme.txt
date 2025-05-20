@@ -1,6 +1,6 @@
 In this folder, scripts used for statistical tests and visualization can be found.
 
-First of all, the script new_abundances_after_filtering.py was used to calculate the abundances after discarding the taxonomic classification with less than 5k. Those abundances were after thaht used in all the following scripts:
+First of all, the script new_abundances_after_filtering.py was used to calculate the abundances after discarding the taxonomic classification with less than 5k. Those abundances were after that used in all the following scripts:
 
 - beta_diversity.R: used to create fig 31 anf fig 32
 - deseq2.R: fig 27
