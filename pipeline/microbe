@@ -1,0 +1,32 @@
+#!/bin/bash
+source /home/pc14c/miniconda3/etc/profile.d/conda.sh
+conda activate buffer_env
+set -e
+
+
+
+BAM_FASTQ="../Results/Mapping/unmapped"
+KRAKEN_DIR="/home/rachel/kraken/kraken2"
+KRAKEN_DB="$KRAKEN_DIR/kraken2db"
+
+OUT="../Results/Microbiome"
+
+
+    samtools fastq -n -1 "$BAM_FASTQ/${SAMPLE}_1.fastq" \
+                   -2 "$BAM_FASTQ/${SAMPLE}_2.fastq" \
+                   -s "$BAM_FASTQ/${SAMPLE}_singletons.fastq" \
+                   "$BAM_FASTQ/${SAMPLE}.unmapped.align.sort.bam"
+
+
+
+    ./kraken2 --db "$KRAKEN_DB" --threads 30 --output "${SAMPLE}_taxonomy" \
+            --report "$OUT/${SAMPLE}_taxonomy_kreport" \
+            --paired "$BAM_FASTQ/${SAMPLE}_1.fastq" \
+                     "$BAM_FASTQ/${SAMPLE}_2.fastq"
+
+    conda activate rachel-env
+    python "$KRAKEN_DIR/KrakenTools/modifkreport2krona.py" -r "$OUT/${SAMPLE}_taxonomy_kreport" -o "$OUT/${SAMPLE}_krona"
+    ktImportText "$OUT/${SAMPLE}_krona" -o "$OUT/${SAMPLE}.html"
+    conda deactivate
+
+done
